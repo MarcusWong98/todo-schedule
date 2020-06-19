@@ -1,0 +1,49 @@
+body{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Monserrat sans-serif;
+}
+#counting{
+    width: 100%;
+    text-align: center;
+    font-size: 5rem;
+    margin: 2rem auto;
+}
+#form{
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+#form input{
+    width: 100%;
+    padding: 0.8rem;
+    font-size: 1.2rem;
+    outline: none;
+    border: 2px solid #13938a;
+    border-radius: 10px;
+}
+#form input:focus{
+    outline: none;
+    border: 2px solid #3ac7c1;
+    transition: 0.5s border;
+}
+@media screen and (min-width: 600px) {
+    #counting{
+        margin-top: 6rem;
+    }
+}
+@media screen and (min-width: 750px){
+    #counting{
+        font-size: 7rem;
+    }
+}
+@media screen and (min-width: 1050px){
+    #counting{
+        font-size: 9rem;
+    }
+    #form{
+        width: 60%;
+    }
+}

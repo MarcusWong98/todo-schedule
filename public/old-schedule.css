@@ -1,0 +1,45 @@
+/*body{*/
+/*    box-sizing: border-box;*/
+/*}*/
+/*#schedule{*/
+/*    width: 50vw;*/
+/*    display: flex;*/
+/*    margin: 50px auto;*/
+/*}*/
+/*#week{*/
+/*    display: flex;*/
+/*    width: 50vw;*/
+/*    height: 500px;*/
+/*}*/
+/*#week .day{*/
+/*    !*background-color: blue;*!*/
+/*    min-width: 100px;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    flex: 1;*/
+/*    text-align: center;*/
+/*    border: 1px solid blue;*/
+/*}*/
+/*#week .day .Time-table{*/
+/*    flex: 7;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    justify-content: center;*/
+/*}*/
+/*!*#week .day .Time-table span{*!*/
+/*!*    flex: 1;*!*/
+/*!*}*!*/
+
+
+/*#week .day h4,#week .day span{*/
+/*    flex: 1;*/
+/*    margin: 0;*/
+/*    !*vertical-align: middle;*!*/
+/*    border-bottom: 1px solid blue;*/
+/*}*/
+/*.hover:hover{*/
+/*    background-color: lightblue;*/
+/*}*/
+/*#test{*/
+/*    background-color: #53c7ea;*/
+/*}*/

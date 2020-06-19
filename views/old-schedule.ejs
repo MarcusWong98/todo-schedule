@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href= './public/nav.css' rel = 'stylesheet' type = 'text/css'/>
+    <link href= './public/schedule.css' rel = 'stylesheet' type = 'text/css'/>
+<!--    <link href = './public/old-schedule.css' rel="stylesheet" type="text/css"/>-->
+</head>
+<body>
+    <%-include ('partial/nav');%>
+    <div id = 'schedule'>
+<!--        <div id = 'time'>-->
+<!--            <div>12:00</div>-->
+<!--            <div>13:00</div>-->
+<!--            <div>14:00</div>-->
+<!--            <div>15:00</div>-->
+<!--            <div>16:00</div>-->
+<!--            <div>17:00</div>-->
+<!--            <div>18:00</div>-->
+<!--        </div>-->
+        <div id = 'week'>
+            <div class = 'day'>
+                <span></span>
+            </div>
+            <div class = 'day 1'><h4>Monday</h4></div>
+            <div class = 'day 2'><h4>Tuesday</h4></div>
+            <div class = 'day 3'><h4>Wednesday</h4></div>
+            <div class = 'day 4'><h4>Thursday</h4></div>
+            <div class = 'day 5'><h4>Friday</h4></div>
+            <div class = 'day 6'><h4>Saturday</h4></div>
+            <div class = 'day 7'><h4>Sunday</h4></div>
+        </div>
+
+    </div>
+
+    <script>
+        const week = document.getElementById('week');
+        const days = document.getElementsByClassName('day');
+
+        for(let i = 0; i < days.length; i++){
+            const div = document.createElement('div');
+            div.className = 'Time-table';
+            // console.log(days[i]);
+            for(let time = 12; time <= 18; time++){
+                const col = document.createElement('span');
+                col.innerHTML = `<p>${time.toString() + ':00'}</p>`;
+                col.id = time.toString();
+                div.append(col);
+            }
+            days[i].append(div);
+        }
+        const timeTable = document.querySelectorAll('.Time-table');
+
+        for(let index = 1; index < timeTable.length; index++){
+            const tableChildren = timeTable[index].children;
+            for(let i = 0; i < tableChildren.length; i++){
+                tableChildren[i].className = 'hover';
+                const span = tableChildren[i].children;
+                tableChildren[i].onmouseover = test123(tableChildren[i]);
+                tableChildren[i].addEventListener('click',(e)=>{
+                    console.log(tableChildren[i]);
+                    // if(e.target != e.currentTarget){
+                    //     e.target.id = '';
+                    // }else{
+                    //     console.log('abc');
+                    // }
+                    test(tableChildren[i]);
+                });
+                for(let test = 0; test < span.length; test++){
+                    span[test].style = 'display: none';
+                }
+                // console.log(tableChildren[i].childNodes.style);
+            }
+        }
+
+        function test(element){
+            const className = (element.parentNode).parentNode.className;
+            const whichDay = className.split('day ')[1];
+            const whichTime = element.id;
+
+
+            // switch () {
+            //
+            // }
+            console.log(whichDay, whichTime);
+        }
+
+        function test123(obj){
+            obj.style.color = 'red';
+        }
+
+
+    </script>
+</body>
+</html>

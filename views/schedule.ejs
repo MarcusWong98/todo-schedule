@@ -1,0 +1,462 @@
+<!DOCtype html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="./public/nav.css">
+        <link rel="stylesheet" type="text/css" href="./public/schedule.css">
+    </head>
+    <body>
+        <%-include('partial/nav.ejs')%>
+        <div class = 'warn'>
+            <h3>
+                <span>Warning : </span>if you wanna check your schedule, pls switch to landscape mode.
+            </h3>
+        </div>
+        <div class = 'calendar'>
+            <table>
+                <p id = 'yr-mth'>Test</p>
+                <thead>
+                    <tr id = 'first-row'></tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <div class = 'event-row'>
+
+                <div class = 'previous event-container' >
+                    <img src="./public/assets/left-arrow.svg" onclick="previous()">
+                </div>
+
+                <div class = 'input event-container'>
+                    <input type="text" placeholder="What to do?" name="type-in" id="type-in">
+<!--                    <label for="type-in"><button id = 'save' onclick="save()">Save</button></label>-->
+                </div>
+
+                <div class = 'next event-container'>
+                    <!--                    <p onclick = 'next()'>test</p>-->
+                    <img src="./public/assets/right-arrow.svg" onclick="next()">
+                    <!--                    <i class="fas fa-chevron-circle-right" style="color: black"></i>-->
+                </div>
+<!--                <button id = 'previous' onclick="previous()">Previous</button>-->
+<!--                <button id = 'next' onclick="next()">Next</button>-->
+
+            </div>
+        </div>
+        <div id = 'alert-container'></div>
+        <script>
+
+            const calendar = document.querySelector('.calendar');
+            const thead =  document.querySelector('thead');
+            const tbody = document.querySelector('tbody');
+            const yrAndMonth = document.getElementById('yr-mth');
+
+            const input = document.querySelector('input');
+
+            const div = document.getElementsByClassName('div');
+
+            const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+
+            const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+            const tr = document.getElementById('first-row');
+
+            const today = new Date();
+
+            let currentYear = today.getFullYear();
+            let currentMonth = today.getMonth();
+            const todayMonth = today.getMonth();
+
+
+            let todayDate = ''
+
+            let target = '';
+
+            for(let i = 0; i < 7; i++){
+                const td = document.createElement('td');
+
+                // td.textContent = days[i];
+                td.innerHTML = `<p>${days[i]}</p>`;
+
+                tr.append(td);
+            }
+
+
+
+            showCalendar(currentYear,currentMonth);
+
+            function next(){
+                currentYear = currentMonth === 11 ? currentYear+1 : currentYear
+                currentMonth = (currentMonth + 1)%12;
+
+                showCalendar(currentYear,currentMonth);
+                console.log('next');
+            }
+
+            function previous(){
+                currentYear = currentMonth === 0 ? currentYear - 1: currentYear;
+                currentMonth = (currentMonth -1)%12;
+
+                showCalendar(currentYear,currentMonth);
+                console.log('pre');
+            }
+
+            let show = true;
+
+            const checkIfClicked = [];
+
+            async function showCalendar(year,month){
+
+                const firstDay = (new Date(year,month)).getDay();
+                const daysInMonth = 32 - (new Date(year,month,32)).getDate();
+
+                console.log(firstDay);
+                console.log(daysInMonth);
+                tbody.innerHTML = '';
+
+                yrAndMonth.innerText = months[month] + ' '+ year;
+
+                let date = 1;
+
+                for(let i = 0; i < 6; i++){
+
+                    const row = document.createElement('tr');
+
+                    for(let j = 0; j < 7; j++){
+                        if(i === 0 && j < firstDay){
+                            const cell = document.createElement('td');
+                            cell.textContent = '';
+
+                            row.appendChild(cell);
+                        }else if(date > daysInMonth){
+                            break;
+                        }else{
+                            const cell = document.createElement('td');
+                            // cell.textContent = date.toString();
+                            const div = document.createElement('div');
+
+                            const p = document.createElement('p');
+
+                            p.textContent = date.toString();
+
+                            p.style.padding = '0 0 20px 0';
+
+                            div.append(p);
+
+                            div.style = 'position: absolute; width: 100%;height:100%;top:0;padding: 0.5rem 0 0.5rem 0.5rem ;overflow:hidden;pointer-events:none';
+
+                            cell.append(div);
+
+                            cell.id =  months[month]+'-' +date.toString();
+
+                            // cell.addEventListener('click',(e)=> {
+                            //     e.preventDefault();
+                            //     const targetElement = e.currentTarget;
+                            //     console.log(targetElement);
+                            //     const div = clickEvent(targetElement);
+                            // });
+
+
+                            const dateOfCell = cell.id.split('-');
+
+                            if(month === todayMonth){
+                                for(let date = today.getDate(); date <= daysInMonth; date++){
+
+                                    // console.log(date + 'wkh');
+                                    // console.log(dateOfCell[1]);
+
+
+                                    if(Number.parseInt(dateOfCell[1]) === date){
+
+                                        console.log('ok')
+
+                                        const onlyOneClassName = 'clickable';
+
+                                        cell.className = onlyOneClassName;
+
+                                        cell.onclick = (e) => {
+
+                                            const currentTarget = e.target;
+
+                                            if(checkIfClicked.length > 0){
+                                                const peer = document.getElementById(checkIfClicked[0]);
+
+                                                peer.className = onlyOneClassName;
+
+                                                currentTarget.className = 'clicked';
+
+                                                checkIfClicked[0] = currentTarget.id;
+
+                                                target = currentTarget;
+
+                                                console.log(checkIfClicked)
+                                            }else{
+                                                if(currentTarget.className === onlyOneClassName){
+                                                    currentTarget.className += ' clicked';
+                                                    checkIfClicked.push(currentTarget.id);
+                                                    target = currentTarget;
+                                                }else{
+                                                    currentTarget.className = onlyOneClassName;
+                                                    target = '';
+                                                }
+                                                console.log('6/6 ys')
+                                            }
+                                        }
+                                        // cell.onclick = (e)=>{
+                                        //     clickEvent(e);
+                                        // }
+                                        // cell.className = 'click-to-set';
+                                    }
+                                }
+
+                            }else if(month > todayMonth){
+                                cell.className = 'clickable';
+                                cell.onclick = (e) => {
+                                    clickEvent(e)
+                                }
+                            }
+
+
+                            row.appendChild(cell);
+
+                            date++;
+                        }
+                    }
+                    tbody.append(row);
+                }
+
+                const todoOfCurrentMonth = [];
+
+                let todoID = 0;
+
+                const callData = await fetch('/api',{
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        schedule: true
+                    })
+                });
+
+                const data = await callData.json()
+
+                for(let i = 0; i < data.length; i++){
+
+                    const dateOfdata = data[i].dateID.split('-');
+
+                    console.log(dateOfdata[0])
+
+                    console.log(currentMonth)
+                    if(dateOfdata[0] === months[currentMonth]){
+
+                        todoOfCurrentMonth.push(data[i])
+
+                        // console.log('ok 123');
+                    }
+
+                }
+
+                //     .then(res => {
+                //     res.json().then(data => {
+                //
+                //         // console.log(data)
+                //
+                //
+                //
+                //     })
+                // });
+
+                todoOfCurrentMonth.forEach(todo => {
+                    const day = document.getElementById(todo.dateID);
+
+                    const div = day.firstChild;
+
+                    todoID ++;
+
+                    console.log('this is a obj of ' + day)
+
+                    console.log('this is a '+ div)
+
+                    div.innerHTML += `<p style = 'margin: 0;padding:0;' id = '${ months[currentMonth] +'-'+'todo'+ '-'+ todoID}' class = 'todo'>${todo.todo}</p>`;
+
+                    console.log('this is todoID' + todoID);
+                })
+
+                todayDate = months[today.getMonth()] +'-'+ today.getDate();
+
+                // console.log(todayDate);
+
+                const dateRow = document.getElementById(todayDate);
+
+                const childrenOfToday = dateRow.firstChild.childNodes;
+
+                childrenOfToday.forEach(p => {
+                    if(p.className === 'todo'){
+
+                        const alertSpan = document.querySelector('#alert-container');
+
+                        alertSpan.innerHTML = '';
+
+                        const alert = document.createElement('div');
+
+                        alert.id = p.textContent;
+
+                        // const p = document.createElement('p');
+
+                        const text = 'You have a work-out today. Do you wanna train right now?';
+
+                        const link = 'http://localhost:3000/timer';
+
+                        const todayTodo = `${p.parentNode.parentNode.id}=${alert.id}`
+
+                        const content = `<form id='myForm' action = 'timer' method='GET'><p>${text}</p> <span><button id = 'ok' name = 'todo' value='${todayTodo}' type="submit">ok</button> <button id = "no-show" onclick="no()" type="button">show me later</button></span></form>`
+
+                        setInterval(() => {
+                            show = true;
+                            showTheAlert(alert.parentNode);
+                        },3600*1000)
+
+                        // alert.append(p);
+
+                        alert.innerHTML += content;
+
+                        alertSpan.append(alert);
+
+                        console.log('there is a todo')
+                    }
+                })
+
+                dateRow.style.color = 'lightseagreen';
+
+            }
+
+
+            function clickEvent(e){
+
+                const currentTarget = e.target;
+
+                const div = currentTarget.firstChild;
+
+                // console.log(div);
+
+                if(div.className === ''){
+                    div.className = 'clicked';
+                    target = currentTarget;
+                }else{
+                    div.className = '';
+                    target = '';
+                }
+
+                console.log(target);
+                // div.className = div.className === '' ? 'clicked' : '';
+
+                // return div;
+            }
+            //function for input changing
+            function todo(element,input){
+
+                const todo = input.value;
+
+                console.log(element);
+
+                if(todo === ''){
+                    return
+                }
+                const div = element.firstChild;
+
+
+                if(div.childNodes.length > 1){
+                    const pOfDiv = div.lastChild;
+
+                    pOfDiv.textContent = todo.toString();
+                }else{
+                    div.innerHTML += `<p style = 'margin: 0;padding:0;'>${todo}</p>`;
+                }
+
+
+                const p = div.lastChild;
+
+                // todoList.push({
+                //     dateID: element.id,
+                //     whatTodo: todo
+                // });
+
+
+                fetch('/mySchedule', {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        todayDate : todayDate,
+                        todo: {
+                            dateID: element.id,
+                            whatTodo: todo
+                        }
+                    })
+                }).then(res=>{
+                    console.log(res.json());
+                });
+
+                console.log(element);
+                input.value = '';
+            }
+
+            function save(){
+                fetch('/mySchedule', {
+                    method: 'POST',
+                    headers:{
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        todoList: todoList
+                    })
+                }).then(res=>{
+                    console.log(res.json());
+                });
+                console.log(todoList);
+            }
+
+            input.addEventListener('change', () => {
+
+                todo(target,input)
+
+            });
+
+
+
+            // function ys(){
+            //     const alert = document.getElementById('alert');
+            //     // test.style.opacity = '1';
+            //     // test.style.color = 'red';
+            //     fetch('/timer');
+            // }
+
+            function no() {
+                const alert = document.getElementById('alert-container');
+                show = false;
+                console.log(alert)
+                console.log(showTheAlert(alert));
+                // test.style.opacity = '0';
+                // test.style.color = 'black';
+            }
+
+            function showTheAlert(alert) {
+                if(show){
+                    alert.className = '';
+                }else{
+                    alert.className = 'no-show';
+                }
+                return alert.className;
+            }
+
+            // if(show){
+            //
+            //     console.log('true' + 'show')
+            // }else{
+            //     console.log('false' + 'show')
+            //
+            // }
+
+        </script>
+    </body>
+</html>

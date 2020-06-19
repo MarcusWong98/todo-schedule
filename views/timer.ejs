@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="./public/nav.css" rel="stylesheet"/>
+    <link href = './public/timer.css' rel="stylesheet"/>
+</head>
+<body>
+    <%-include ('partial/nav');%>
+    <div id = 'counting'>00:00:00</div>
+<!--        <span>00</span>-->
+<!--        <span>00</span>-->
+<!--        <span>00</span>-->
+    <div id = 'form'>
+        <input id = 'input' name="timer" required placeholder="Set the time.." type="text" name="time"/>
+    </div>
+    <script>
+        const input = document.getElementById('input');
+
+        // let t;
+
+        let startTimer = true;
+
+        let test = null;
+
+        function timer(valueOfTime){
+            const counting = document.getElementById('counting');
+            const time =  counting.textContent.split(':');
+            // const clock = {
+            //     hours: time[0],
+            //     mins: time[1],
+            //     second: time[2]
+            // }
+            let t = valueOfTime;
+
+            if(valueOfTime.includes('s')){
+                s = t.replace(/s/,'');
+                t = Number.parseFloat(s);
+            }
+            if(valueOfTime.includes('m')){
+                m = t.replace(/m/,'');
+                t = Number.parseFloat(m)*60;
+                // return (value%60);
+            }
+            if(valueOfTime.includes('h')){
+                h = t.replace(/s/,'');
+                t = Number.parseFloat(h)*60*60;
+                // return (value%60%60);
+            }
+
+            // const clock =  cal(t);
+
+            if(t > 0){
+                const start = new Date;
+                const endpoint = Date.parse(start) + Number.parseInt(t*1000);
+
+                console.log(Date.parse(start));
+                console.log(endpoint);
+
+                test = window.setInterval(()=>{
+                    const clock = cal(t);
+                    t-=1;
+                    console.log(clock);
+                    if(t < 0){
+                        window.clearInterval(test);
+
+                        let alreadyDone;
+
+                        new URLSearchParams(window.location.search).forEach((value, key) => {
+
+                            const todo = value.split('=');
+
+
+                            alreadyDone = {
+                                dateID: todo[0],
+                                todo: todo[1],
+                                time: valueOfTime
+                            }
+                        })
+
+
+
+                        fetch('/mySchedule',{
+                            method:'post',
+                            headers:{
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(alreadyDone)
+                        })
+                            .then(res => console.log(res.json()))
+                            .then(err => console.log(err));
+                    }
+                },1000);
+
+            }
+            // value = '';
+
+            // if((start + t) === Date.now()){
+            //
+            // }
+        }
+        function cal(time){
+            let s = '00';
+            let m = '00';
+            let h = '00';
+            if(time>=60){
+                s = time%60;
+                m = Math.floor((time/60)%60);
+                h = Math.floor((time/60-m)/60);
+            }else{
+                s = time;
+            }
+            // if(time>(60*60)){
+            //     s = time%(60*60);
+            //     m = (time-s)/60;
+            // }
+            time = `${h}:${m}:${s}`;
+            // console.log(time);
+            document.getElementById('counting').textContent = time;
+            return time;
+        }
+
+        input.addEventListener('change',()=> {
+            clearInterval(test)
+            timer(input.value);
+            input.value = '';
+        });
+
+
+
+    </script>
+</body>
+</html>

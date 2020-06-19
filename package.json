@@ -1,0 +1,19 @@
+{
+  "name": "my-workout",
+  "version": "1.0.0",
+  "description": "my workout project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "wkh",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.2",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.11",
+    "nodemon": "^2.0.3"
+  }
+}

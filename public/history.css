@@ -1,0 +1,52 @@
+*{
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Monserrat', sans-serif;
+}
+#title, #allHistory{
+    margin: 0 auto;
+}
+#title{
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+}
+#allHistory{
+    /*background-color: lightseagreen;*/
+    border: 3px solid #05c6e0;
+    color: #06bbb3;
+    border-radius: 0.5rem;
+    width: 90%;
+    padding: 0.5rem;
+}
+#allHistory .history{
+    padding: 0.3rem;
+    /*background-color: blue;*/
+    margin: 0.5rem 0;
+    display: flex;
+    text-align: start;
+    box-shadow: 0 0 3px grey inset;
+}
+#allHistory .history p{
+    flex: 1;
+}
+#allHistory .history p span{
+    font-weight: bold;
+}
+@media screen and (min-width: 600px) {
+    #title{
+        margin-top: 6rem;
+    }
+}
+@media screen and (min-width: 800px) {
+    #allHistory{
+        width: 80%;
+        background-re;
+    }
+}
+@media screen and (min-width: 1050px) {
+    #allHistory{
+        width: 60%;
+    }
+}

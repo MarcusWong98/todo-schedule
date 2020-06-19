@@ -1,0 +1,40 @@
+<nav>
+    <div class = 'title-container'>
+        <div class = 'logo-container' onclick="toggleMenu()">
+            <img src = './public/assets/bars-solid.svg' class = 'logo'>
+        </div>
+        <h3 class = 'title'>Your work-out</h3>
+    </div>
+    <ul class = 'navigation'>
+        <a href="http://localhost:3000"><li id = 'my-history'>My history</li></a>
+        <a href="http://localhost:3000/timer"><li id = 'timer'>Timer</li></a>
+        <a href="http://localhost:3000/schedule"><li id = 'my-schedule'>Schedule</li></a>
+<!--        <li><svg href = '../../public/assets/bars-solid.svg' style="color: white"></li>-->
+    </ul>
+    <ul class = 'side-bar'>
+        <a href="http://localhost:3000"><li id = 'side-my-history'>My history</li></a>
+        <hr>
+        <a href="http://localhost:3000/timer"><li id = 'side-timer'>Timer</li></a>
+        <hr>
+        <a href="http://localhost:3000/schedule"><li id = 'side-my-schedule'>Schedule</li></a>
+        <!--        <li><svg href = '../../public/assets/bars-solid.svg' style="color: white"></li>-->
+    </ul>
+</nav>
+<script>
+    let toggle = false;
+    const sideBar = document.querySelector('.side-bar');
+    function toggleMenu() {
+        console.log(sideBar);
+        if(!toggle){
+            sideBar.style.transform = 'translateX(0%)';
+            toggle = !toggle;
+            console.log(toggle);
+            console.log(sideBar.style.transform);
+        }else{
+            sideBar.style.transform = 'translateX(-100%)';
+            toggle = !toggle;
+            console.log(toggle);
+            console.log(sideBar.style.transform);
+        }
+    }
+</script>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href= './public/nav.css' rel = 'stylesheet' type = 'text/css'/>
+    <link href= './public/history.css' rel = 'stylesheet' type = 'text/css'/>
+</head>
+<body>
+        <%-include ('partial/nav');%>
+    <script>
+        fetch('/api', {
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify({
+                history: true
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                // let html = `<h3  id = 'title'>Your work-out history in the last week</h3>`;
+                const h3 = document.createElement('h3');
+                h3.textContent = 'Your work-out history in the last week';
+                h3.id = 'title';
+                document.body.append(h3);
+                let allHistory = document.createElement('div');
+                allHistory.id = 'allHistory';
+                if(data.length > 7){
+                    for(let i = 0; i < 7; i++){
+                        allHistory.innerHTML += `<div class = 'history'><p><span>Date : </span>${data[i].dateID}</p><p>Todo : ${data[i].todo}</p><p>Time : ${data[i].time}</p></div>`
+                        document.body.append(allHistory)
+                    }
+                }else{
+                    for(let i = 0; i < data.length; i++){
+                        allHistory.innerHTML += `<div class = 'history'><p><span>Date : </span>${data[i].dateID}</p>
+                                                                        <p><span>Todo : </span>${data[i].todo}</p>
+                                                                        <p><span>Time : </span>${data[i].time}</p></div>`
+                        document.body.append(allHistory);
+                    }
+                }
+
+        })
+            .catch(err => console.error(err));
+    </script>
+</body>
+</html>
