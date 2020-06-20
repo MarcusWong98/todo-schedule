@@ -11,7 +11,7 @@ mongoose.connect(process.env.DATABASE_URL,{ useNewUrlParser: true ,useUnifiedTop
 
 mongoose.connection.once('open',()=>{
     console.log('Connecting to database')
-    console.log(mongoose.connection)
+    // console.log(mongoose.connection)
 }).on('error',err=> console.log('Error : ' + err))
 
 const Schedule = require('./models/schedule');
