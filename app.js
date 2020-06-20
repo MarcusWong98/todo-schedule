@@ -11,6 +11,7 @@ mongoose.connect(process.env.DATABASE_URL,{ useNewUrlParser: true ,useUnifiedTop
 
 mongoose.connection.once('open',()=>{
     console.log('Connecting to database')
+    console.log(mongoose.connection)
 }).on('error',err=> console.log('Error : ' + err))
 
 const Schedule = require('./models/schedule');
@@ -183,4 +184,4 @@ app.post('/mySchedule',async (req,res)=>{
 })
 
 
-app.listen(3000, () => console.log('listening on 3000'));
+app.listen(process.env.PORT || 3000, () => console.log('listening on 3000'));
